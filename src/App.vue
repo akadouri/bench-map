@@ -4,6 +4,12 @@ import Parks from "./components/Parks.vue";
 </script>
 
 <template>
+  <nav>
+    <a href="https://arielsartistry.com/">Home</a>
+    <a style="margin-left: 5px" href="https://github.com/akadouri/bench-map"
+      >Github</a
+    >
+  </nav>
   <div id="container">
     <Map />
     <Parks />
