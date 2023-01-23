@@ -21,6 +21,7 @@ PARKS_QUERY = """
         where planet_osm_point.amenity ='bench' 
         and st_within(planet_osm_point.way, parks.way)
         group by parks.osm_id, parks.name, parks.way
+        order by parks.name
     ) SELECT jsonb_build_object(
         'type',     'FeatureCollection',
         'features', jsonb_agg(feature),
