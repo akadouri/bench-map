@@ -5,6 +5,9 @@ on:
     branches:
       - automation
 
+env:
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
