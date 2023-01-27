@@ -33,4 +33,4 @@ jobs:
         run: aws s3 sync dist/ s3://arielsartistry.com/benches/
 
       - name: Invalidate Cloudfront
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_ID }} --paths 'benches/*'
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_ID }} --paths '/benches/*'
