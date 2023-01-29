@@ -3,7 +3,7 @@ name: build n deloy
 on:
   push:
     branches:
-      - automation
+      - main
 
 env:
   env_var: ${{ vars.ENV_CONTEXT_VAR }}
