@@ -18,11 +18,11 @@ export default {
     };
   },
   mounted() {
-    var maptiler_key = "";
     var map = new Map({
       container: "map",
       style:
-        "https://api.maptiler.com/maps/basic-v2/style.json?key=" + maptiler_key,
+        "https://api.maptiler.com/maps/basic-v2/style.json?key=" +
+        import.meta.env.VITE_MAPTILER_KEY,
       center: [-73.968881, 40.672749],
       zoom: 14,
       maxBounds: [
