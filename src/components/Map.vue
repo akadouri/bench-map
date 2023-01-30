@@ -4,6 +4,7 @@ import {
   NavigationControl,
   AttributionControl,
   LngLat,
+  LngLatBounds,
 } from "maplibre-gl";
 import { inject } from "vue";
 import benches_geojson from "@/assets/benches.json";
@@ -94,11 +95,20 @@ export default {
         (item) => item.properties.osm_id == e.osm_id
       );
       if (found !== undefined) {
-        const coords = new LngLat(
-          found.geometry.coordinates[0][0][0][0],
-          found.geometry.coordinates[0][0][0][1]
+        // Reduce the multipolygon array one level
+        var flat1 = found.geometry.coordinates.reduce(
+          (acc, val) => acc.concat(val),
+          []
         );
-        map.flyTo({ center: coords, zoom: 15 });
+        // Pulls the coordinates from each polygon
+        var flat2 = flat1.reduce((acc, val) => acc.concat(val), []);
+        // Compile coordinates into LngLatBounds
+        var bounds = flat2.reduce(function (bounds, coord) {
+          return bounds.extend(new LngLat(coord[0], coord[1]));
+        }, new LngLatBounds(flat2[0], flat2[0]));
+        map.fitBounds(bounds, {
+          padding: 20,
+        });
       }
     });
   },
