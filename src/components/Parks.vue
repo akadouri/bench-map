@@ -30,13 +30,6 @@ export default {
       loading: true,
     };
   },
-  methods: {
-    // selects a park (left for future use if items are returned)
-    selectPark(item: ParkItem) {
-      this.selected = item;
-      (this as any).pickItem(item);
-    },
-  },
 };
 </script>
 
@@ -58,13 +51,8 @@ export default {
         <p v-if="selected">
           There are {{ selected.count }} benches in {{ selected.name }}
         </p>
-        <v-select
-          v-model="selected"
-          :options="metadata"
-          :getOptionKey="(metadata : any) => metadata.osm_id"
-          label="name"
-          @option:selected="pickItem"
-        />
+        <v-select v-model="selected" :options="metadata" :getOptionKey="(metadata: any) => metadata.osm_id"
+          label="name" @option:selected="pickItem" />
       </div>
       <div v-if="!metadata">No metadata available.</div>
     </div>
