@@ -1,7 +1,7 @@
 <script lang="ts">
 import { inject } from "vue";
-import parks_geojson from "@/assets/parks.json";
 import type { ParkItem } from "@/components/types";
+import { asyncBufferFromUrl, parquetReadObjects } from "hyparquet";
 
 export default {
   setup() {
@@ -11,24 +11,31 @@ export default {
     };
     return { pickItem };
   },
-  mounted() {},
-  data() {
-    let names: any[] = [];
-    parks_geojson.features.forEach((item) => {
-      if (item.properties.name !== null) {
-        names.push({
-          label: item.properties.name,
-          osm_id: item.properties.osm_id,
-          count: item.properties.count,
-        });
-      }
+  async mounted() {
+    this.loading = true;
+    const url = "/park_stats.parquet";
+    const file = await asyncBufferFromUrl({ url }); // wrap url for async fetching
+    const data = await parquetReadObjects({
+      file,
+      columns: ["osm_id", "name", "count", "envelope"],
     });
+    this.metadata = data;
+    this.metadata.import_timestamp = "12/13/2025";
+    this.loading = false;
+  },
+  data() {
     return {
-      importdate: parks_geojson.importdate.split("+")[0],
-      items: parks_geojson.features,
-      names: names,
-      selected: { label: "", count: "" },
+      metadata: null as any,
+      selected: null as ParkItem | null,
+      loading: true,
     };
+  },
+  methods: {
+    // selects a park (left for future use if items are returned)
+    selectPark(item: ParkItem) {
+      this.selected = item;
+      (this as any).pickItem(item);
+    },
   },
 };
 </script>
@@ -38,14 +45,28 @@ export default {
     <h1>Bench Map!</h1>
     <p>
       This is a map of benches pulled from
-      <a href="https://www.openstreetmap.org/">OpenStreetMap</a> on
-      {{ importdate }}.
+      <a href="https://www.openstreetmap.org/">OpenStreetMap</a>.
     </p>
     <br />
-    <h2>Search by Park</h2>
-    <v-select v-model="selected" :options="names" @option:selected="pickItem" />
-    <div v-if="selected && selected.label">
-      {{ selected.label }} has {{ selected.count }} benches.
+    <h2>Parks</h2>
+    <div v-if="loading">Loading metadata…</div>
+    <div v-else>
+      <div v-if="metadata">
+        <p v-if="metadata.import_timestamp">
+          <strong>Imported:</strong> {{ metadata.import_timestamp }}
+        </p>
+        <p v-if="selected">
+          There are {{ selected.count }} benches in {{ selected.name }}
+        </p>
+        <v-select
+          v-model="selected"
+          :options="metadata"
+          :getOptionKey="(metadata : any) => metadata.osm_id"
+          label="name"
+          @option:selected="pickItem"
+        />
+      </div>
+      <div v-if="!metadata">No metadata available.</div>
     </div>
   </div>
 </template>

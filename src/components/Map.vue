@@ -3,17 +3,19 @@ import {
   Map,
   NavigationControl,
   AttributionControl,
-  LngLat,
-  LngLatBounds,
+  type LngLatBoundsLike,
+  type LngLatLike,
 } from "maplibre-gl";
+import maplibregl from "maplibre-gl";
 import { inject } from "vue";
-import benches_geojson from "@/assets/benches.json";
-import parks_geojson from "@/assets/parks.json";
 import type { ParkItem } from "@/components/types";
+import { Protocol } from "pmtiles";
 
 export default {
   setup() {
     const emitter = inject("emitter") as any;
+    let protocol = new Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
     return {
       emitter,
     };
@@ -25,24 +27,25 @@ export default {
         "https://api.maptiler.com/maps/basic-v2/style.json?key=" +
         import.meta.env.VITE_MAPTILER_KEY,
       center: [-73.968881, 40.672749],
-      zoom: 14,
+      zoom: 10,
+      maxZoom: 17,
       maxBounds: [
-        [-74.367903, 40.417915],
-        [-73.665787, 40.961384],
+        [-74.338989, 40.482471],
+        [-73.54248, 41.068998],
       ],
     });
     map.on("load", function () {
-      map.addSource("benches-source", {
-        type: "geojson",
-        data: benches_geojson,
+      const pmtilesUrl = "pmtiles://data.pmtiles";
+
+      map.addSource("pmtiles-source", {
+        type: "vector",
+        url: pmtilesUrl,
       });
-      map.addControl(new AttributionControl(), "top-left");
-      var nav = new NavigationControl({});
-      map.addControl(nav, "top-right");
       map.addLayer({
-        id: "benches",
-        source: "benches-source",
+        id: "my-pmtiles-layer",
         type: "circle",
+        source: "pmtiles-source",
+        "source-layer": "benches",
         paint: {
           "circle-radius": [
             "interpolate",
@@ -59,13 +62,13 @@ export default {
           ],
         },
       });
-      map.addSource("parks-source", {
-        type: "geojson",
-        data: parks_geojson,
-      });
+      map.addControl(new AttributionControl(), "top-left");
+      var nav = new NavigationControl({});
+      map.addControl(nav, "top-right");
       map.addLayer({
         id: "parks",
-        source: "parks-source",
+        source: "pmtiles-source",
+        "source-layer": "parks",
         type: "fill",
         paint: {
           "fill-color": [
@@ -77,39 +80,35 @@ export default {
           "fill-opacity": 0.25,
         },
       });
-    });
-    this.emitter.on("park", (e: ParkItem) => {
-      map.removeFeatureState({
-        source: "parks-source",
-      });
-      map.setFeatureState(
-        {
-          source: "parks-source",
-          id: e.osm_id,
+      map.addLayer({
+        id: "parks-label",
+        source: "pmtiles-source",
+        "source-layer": "parks",
+        type: "symbol",
+        minzoom: 12,
+        layout: {
+          "text-field": ["get", "name"],
+          "text-font": ["Open Sans Bold"],
+          "text-size": ["interpolate", ["linear"], ["zoom"], 10, 11, 16, 15],
+          "text-variable-anchor": ["bottom", "center"],
+          "text-radial-offset": 0.5,
         },
-        {
-          clicked: true,
+        paint: {
+          "text-halo-color": "#ffffff",
+          "text-halo-width": 2,
+        },
+      });
+    });
+    this.emitter.on("park", (park: ParkItem) => {
+      const bounds = new maplibregl.LngLatBounds();
+      park.envelope.coordinates[0].forEach(
+        (coord: LngLatLike | LngLatBoundsLike) => {
+          bounds.extend(coord);
         }
       );
-      const found = parks_geojson.features.find(
-        (item) => item.properties.osm_id == e.osm_id
-      );
-      if (found !== undefined) {
-        // Reduce the multipolygon array one level
-        var flat1 = found.geometry.coordinates.reduce(
-          (acc, val) => acc.concat(val),
-          []
-        );
-        // Pulls the coordinates from each polygon
-        var flat2 = flat1.reduce((acc, val) => acc.concat(val), []);
-        // Compile coordinates into LngLatBounds
-        var bounds = flat2.reduce(function (bounds, coord) {
-          return bounds.extend(new LngLat(coord[0], coord[1]));
-        }, new LngLatBounds(flat2[0], flat2[0]));
-        map.fitBounds(bounds, {
-          padding: 20,
-        });
-      }
+      map.fitBounds(bounds, {
+        padding: 20,
+      });
     });
   },
 };
