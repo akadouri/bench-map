@@ -13,7 +13,7 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    const url = "/park_stats.parquet";
+    const url = import.meta.env.BASE_URL + "park_stats.parquet";
     const file = await asyncBufferFromUrl({ url }); // wrap url for async fetching
     const data = await parquetReadObjects({
       file,
