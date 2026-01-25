@@ -13,4 +13,15 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'maplibre': ['maplibre-gl'],
+          'pmtiles': ['pmtiles'],
+          'hyparquet': ['hyparquet'],
+        },
+      },
+    },
+  },
 });

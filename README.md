@@ -1,10 +1,11 @@
 # Bench Map
 
-This is a simple project that pulls [bench](https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dbench) and park geometry from a local postgresql database setup with [osm2pgsql](https://osm2pgsql.org/). I use a [dockerized configuration](https://github.com/akadouri/osm2pgsql-docker-quickstart) with an extract of New York. This isn't the most efficent way to process data for a map like this, but I use the database for other things and already have it setup locally.
+This is a simple project that displays [bench](https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dbench) and park geometry from a local postgresql database setup with [osm2pgsql](https://osm2pgsql.org/). The steps for preparing data are no longer in this repository.
+
+This project was created with the help of Co-Pilot.
 
 ## Hosted at [https://arielsartistry.com/benches/index.html](https://arielsartistry.com/benches/index.html)
-
-This may or may not be up to date.
+The hosted version may use data that is not the same as the data prepared in `scripts/` and in `/public`. The example in those folder are intended for local devleopment.
 
 ## Project Setup
 
@@ -23,10 +24,3 @@ npm run dev
 ```sh
 npm run build
 ```
-
-### Dependencies
-
-Not an exhaustive list
-
-- [mitt](https://github.com/developit/mitt) to pass events between compontents.
-- [maplibre](https://github.com/maplibre/maplibre-gl-js) for the map.
