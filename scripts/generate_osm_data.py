@@ -31,7 +31,7 @@ NYC_BBOX = (-74.085445,40.634929,-73.738346,40.807053)
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 
 
-def fetch_overpass_data(query: str, timeout: int = 180) -> dict:
+def fetch_overpass_data(query: str) -> dict:
     """
     Fetch data from Overpass API with the given query.
     
@@ -46,7 +46,7 @@ def fetch_overpass_data(query: str, timeout: int = 180) -> dict:
     response = requests.post(
         OVERPASS_URL,
         data={"data": query},
-        timeout=timeout + 30,  # Add buffer to request timeout
+        timeout=180,
     )
     response.raise_for_status()
     return response.json()
