@@ -35,8 +35,7 @@ export default {
       ],
     });
     map.on("load", function () {
-      const pmtilesUrl = "pmtiles://data.pmtiles";
-
+      const pmtilesUrl = import.meta.env.VITE_PMTILES_URL || "pmtiles://data.pmtiles";
       map.addSource("pmtiles-source", {
         type: "vector",
         url: pmtilesUrl,
