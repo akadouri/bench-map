@@ -23,6 +23,9 @@ jobs:
       - name: Run build
         env:
           VITE_MAPTILER_KEY: ${{ vars.VITE_MAPTILER_KEY }}
+          VITE_PMTILES_URL: pmtiles://https://data.assemblageapps.com/bench_map/data.pmtiles
+          VITE_METADATA_URL: https://data.assemblageapps.com/bench_map/metadata.json
+          VITE_PARK_STATS_URL: https://data.assemblageapps.com/bench_map/park_stats.parquet
         run: npm run build
 
       - name: Configure AWS

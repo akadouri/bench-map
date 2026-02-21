@@ -347,8 +347,6 @@ def generate_pmtiles(
             "tippecanoe",
             "-o", str(output_path),
             "--force",  # Overwrite existing file
-            "--maximum-zoom=17",
-            "--minimum-zoom=1",
             "-L", f"parks:{parks_path}",
             "-L", f"benches:{benches_path}",
         ]
