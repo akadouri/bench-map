@@ -1,6 +1,5 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import VSelect from "vue-select";
 
 import "./assets/main.css";
 
@@ -10,5 +9,4 @@ const emitter = mitt(); // Initialize mitt
 
 const app = createApp(App);
 app.provide("emitter", emitter);
-app.component("v-select", VSelect);
 app.mount("#app");

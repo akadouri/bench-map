@@ -28,11 +28,7 @@ export default {
         import.meta.env.VITE_MAPTILER_KEY,
       center: [-73.968881, 40.672749],
       zoom: 10,
-      maxZoom: 17,
-      maxBounds: [
-        [-74.338989, 40.482471],
-        [-73.54248, 41.068998],
-      ],
+      maxZoom: 17
     });
     map.on("load", function () {
       const pmtilesUrl = import.meta.env.VITE_PMTILES_URL || "pmtiles://data.pmtiles";
@@ -51,7 +47,7 @@ export default {
             ["linear"],
             ["zoom"],
             1,
-            0.25,
+            2,
             10,
             2,
             14,
@@ -69,6 +65,7 @@ export default {
         source: "pmtiles-source",
         "source-layer": "parks",
         type: "fill",
+        minzoom: 9,
         paint: {
           "fill-color": [
             "case",

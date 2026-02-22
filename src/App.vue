@@ -18,7 +18,6 @@ import Parks from "./components/Parks.vue";
 
 <style>
 @import "https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css";
-@import "https://unpkg.com/vue-select@4.0.0-beta.6/dist/vue-select.css";
 
 #container {
   display: grid;
