@@ -3,6 +3,8 @@ export type ParkItem = {
   osm_id: number;
   count: bigint;
   envelope: any;
+  state: string;
+  city: string;
 };
 
 export type Metadata = {
