@@ -33,7 +33,7 @@ export default {
     const file = await asyncBufferFromUrl({ url }); // wrap url for async fetching
     const data = await parquetReadObjects({
       file,
-      columns: ["osm_id", "name", "count", "envelope", "city", "state"],
+      columns: ["area_id", "name", "count", "envelope", "city", "state"],
     });
     this.parkData = data as ParkItem[];
     this.loading = false;
@@ -184,7 +184,7 @@ export default {
               class="park-results-list"
               :items="filteredParks"
               :item-size="32"
-              key-field="osm_id"
+              key-field="area_id"
             >
               <template #default="{ item, index }">
                 <div
@@ -202,8 +202,8 @@ export default {
         </div>
         <h3>Top 10 Parks by Bench Count</h3>
         <ol class="top-parks-list">
-          <li v-for="park in topParks" :key="park.osm_id" @click="selectPark(park)"
-            :class="{ active: selected?.osm_id === park.osm_id }">
+          <li v-for="park in topParks" :key="park.area_id" @click="selectPark(park)"
+            :class="{ active: selected?.area_id === park.area_id }">
             <span class="park-name">{{ park.name }}{{ formatLocation(park) }}</span>
             <span class="park-count">{{ park.count }} benches</span>
           </li>

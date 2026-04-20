@@ -1,6 +1,6 @@
 export type ParkItem = {
   name: string;
-  osm_id: number;
+  area_id: number;
   count: bigint;
   envelope: any;
   state: string;
