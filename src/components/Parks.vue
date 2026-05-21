@@ -60,15 +60,16 @@ export default {
     filteredParks(): ParkItem[] {
       if (!this.parkData) return [];
       const q = this.searchQuery.trim().toLowerCase();
+      const named = this.parkData.filter((park) => park.name != null && String(park.name).trim() !== "");
       const matches = q
-        ? this.parkData.filter((park) => {
+        ? named.filter((park) => {
             const name = String(park.name ?? "");
             const city = String(park.city ?? "");
             const state = String(park.state ?? "");
             const haystack = `${name} ${city} ${state}`.toLowerCase();
             return haystack.includes(q);
           })
-        : this.parkData;
+        : named;
       return matches.slice(0, this.searchLimit);
     },
     highlightedPark(): ParkItem | null {
