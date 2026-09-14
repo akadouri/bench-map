@@ -3,10 +3,11 @@ import {
   Map,
   NavigationControl,
   AttributionControl,
+  LngLatBounds,
+  addProtocol,
   type LngLatBoundsLike,
   type LngLatLike,
 } from "maplibre-gl";
-import maplibregl from "maplibre-gl";
 import { inject } from "vue";
 import type { ParkItem } from "@/components/types";
 import { Protocol } from "pmtiles";
@@ -15,7 +16,7 @@ export default {
   setup() {
     const emitter = inject("emitter") as any;
     let protocol = new Protocol();
-    maplibregl.addProtocol("pmtiles", protocol.tile);
+    addProtocol("pmtiles", protocol.tile);
     return {
       emitter,
     };
@@ -96,7 +97,7 @@ export default {
       });
     });
     this.emitter.on("park", (park: ParkItem) => {
-      const bounds = new maplibregl.LngLatBounds();
+      const bounds = new LngLatBounds();
       park.envelope.coordinates[0].forEach(
         (coord: LngLatLike | LngLatBoundsLike) => {
           bounds.extend(coord);

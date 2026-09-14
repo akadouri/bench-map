@@ -30,6 +30,14 @@ Install node depedencies
 npm install
 ```
 
+Before starting the development server, create `.env.development` with a MapTiler key:
+
+```dotenv
+VITE_MAPTILER_KEY=your_maptiler_key
+```
+
+Restart Vite after changing this file. Vite only exposes variables prefixed with `VITE_` to browser code.
+
 Start development server
 ```sh
 npm run dev
