@@ -5,12 +5,16 @@ import {
   AttributionControl,
   LngLatBounds,
   addProtocol,
+  setWorkerUrl,
   type LngLatBoundsLike,
   type LngLatLike,
 } from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 import { inject } from "vue";
 import type { ParkItem } from "@/components/types";
 import { Protocol } from "pmtiles";
+
+setWorkerUrl(workerUrl);
 
 export default {
   setup() {
