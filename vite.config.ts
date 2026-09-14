@@ -8,6 +8,11 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 export default defineConfig({
   base: "/benches/",
   plugins: [vue(), vueJsx()],
+  // MapLibre creates its worker with a module URL. Let Vite process the
+  // package directly instead of rewriting it through the dependency optimizer.
+  optimizeDeps: {
+    exclude: ["maplibre-gl"],
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

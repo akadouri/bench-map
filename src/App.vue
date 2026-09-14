@@ -17,7 +17,7 @@ import Parks from "./components/Parks.vue";
 </template>
 
 <style>
-@import "https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css";
+@import "https://unpkg.com/maplibre-gl@6.4.1/dist/maplibre-gl.css";
 
 #container {
   display: grid;
