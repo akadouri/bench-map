@@ -9,7 +9,7 @@ import {
   type LngLatBoundsLike,
   type LngLatLike,
 } from "maplibre-gl";
-import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { inject } from "vue";
 import type { ParkItem } from "@/components/types";
 import { Protocol } from "pmtiles";
