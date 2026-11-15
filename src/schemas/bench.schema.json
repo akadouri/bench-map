@@ -1,0 +1,58 @@
+{
+  "additionalProperties": false,
+  "description": "`amenity=bench` specific fields.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "integer"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Name"
+    },
+    "amenity": {
+      "default": "bench",
+      "title": "Amenity",
+      "type": "string"
+    },
+    "backrest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Backrest"
+    },
+    "capacity": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Capacity"
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "title": "BenchProperties",
+  "type": "object",
+  "schemaVersion": "0.1.0",
+  "derived": false
+}

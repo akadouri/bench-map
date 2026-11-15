@@ -13,9 +13,10 @@ dist
 dist-ssr
 coverage
 *.local
+__pycache__
 
-/cypress/videos/
-/cypress/screenshots/
+# Parquet files written by scripts/layercake; the app does not load them
+public/*.parquet
 
 # Editor directories and files
 .vscode/*

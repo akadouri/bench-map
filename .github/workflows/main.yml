@@ -1,12 +1,12 @@
-name: build n deloy
+name: build n deploy
 
 on:
   push:
     branches:
       - main
-
-env:
-  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,15 +20,18 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install
+      - name: Run tests
+        run: npm test
       - name: Run build
         env:
           VITE_MAPTILER_KEY: ${{ vars.VITE_MAPTILER_KEY }}
           VITE_PMTILES_URL: pmtiles://https://data.assemblageapps.com/bench_map/data.pmtiles
           VITE_METADATA_URL: https://data.assemblageapps.com/bench_map/metadata.json
-          VITE_PARK_STATS_URL: https://data.assemblageapps.com/bench_map/park_stats.parquet
         run: npm run build
 
+      # Pull requests stop here: only pushes to main deploy.
       - name: Configure AWS
+        if: github.event_name == 'push'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -36,7 +39,9 @@ jobs:
           aws-region: us-east-1
 
       - name: Copy files to S3
+        if: github.event_name == 'push'
         run: aws s3 sync dist/ s3://arielsartistry.com/benches/
 
       - name: Invalidate Cloudfront
+        if: github.event_name == 'push'
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_ID }} --paths '/benches/*'

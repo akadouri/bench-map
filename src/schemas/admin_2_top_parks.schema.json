@@ -1,0 +1,105 @@
+{
+  "$defs": {
+    "Admin2RankedPark": {
+      "additionalProperties": false,
+      "description": "A park entry in a boundary's precomputed bench ranking.",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "integer"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "name_en": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name En"
+        },
+        "bench_count": {
+          "title": "Bench Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "bench_count"
+      ],
+      "title": "Admin2RankedPark",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One admin-level-2 boundary and its ordered top parks.",
+  "properties": {
+    "boundary_type": {
+      "title": "Boundary Type",
+      "type": "string"
+    },
+    "boundary_id": {
+      "title": "Boundary Id",
+      "type": "integer"
+    },
+    "boundary_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Boundary Name"
+    },
+    "boundary_name_en": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Boundary Name En"
+    },
+    "parks": {
+      "items": {
+        "$ref": "#/$defs/Admin2RankedPark"
+      },
+      "title": "Parks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "boundary_type",
+    "boundary_id",
+    "parks"
+  ],
+  "title": "Admin2BoundaryParkRanking",
+  "type": "object",
+  "schemaVersion": "0.1.0",
+  "derived": true
+}

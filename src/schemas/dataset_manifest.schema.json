@@ -1,0 +1,366 @@
+{
+  "$defs": {
+    "BoundaryRankingsArtifactMetadataSchema": {
+      "additionalProperties": false,
+      "description": "Dataset-manifest references for versioned boundary park rankings.",
+      "properties": {
+        "schema_version": {
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "build_id": {
+          "title": "Build Id",
+          "type": "string"
+        },
+        "manifest_url": {
+          "title": "Manifest Url",
+          "type": "string"
+        },
+        "admin_2_top_parks_url": {
+          "title": "Admin 2 Top Parks Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "build_id",
+        "manifest_url",
+        "admin_2_top_parks_url"
+      ],
+      "title": "BoundaryRankingsArtifactMetadataSchema",
+      "type": "object"
+    },
+    "CompositeLayerMetadataSchema": {
+      "additionalProperties": false,
+      "description": "Metadata describing a composite of dataset layers.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "layer_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Layer Names",
+          "type": "array"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "maxItems": 4,
+              "minItems": 4,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Bbox"
+        }
+      },
+      "required": [
+        "name",
+        "created_at",
+        "layer_names",
+        "bbox"
+      ],
+      "title": "CompositeLayerMetadataSchema",
+      "type": "object"
+    },
+    "DatasetArtifactsSchema": {
+      "additionalProperties": true,
+      "description": "Known artifact references plus forward-compatible artifact entries.",
+      "properties": {
+        "park_search": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ParkSearchArtifactMetadataSchema"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "boundary_rankings": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BoundaryRankingsArtifactMetadataSchema"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "DatasetArtifactsSchema",
+      "type": "object"
+    },
+    "LayerMetadataSchema": {
+      "additionalProperties": false,
+      "description": "Metadata describing one dataset layer and its row schema.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Query"
+        },
+        "srid": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Srid"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "maxItems": 4,
+              "minItems": 4,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Bbox"
+        },
+        "row_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Row Count"
+        },
+        "minzoom": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Minzoom"
+        },
+        "maxzoom": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Maxzoom"
+        },
+        "schema_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Schema Name"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "name",
+        "created_at",
+        "query",
+        "srid",
+        "bbox",
+        "row_count",
+        "minzoom",
+        "maxzoom",
+        "schema_name",
+        "schema_version"
+      ],
+      "title": "LayerMetadataSchema",
+      "type": "object"
+    },
+    "ParkSearchArtifactMetadataSchema": {
+      "additionalProperties": false,
+      "description": "Dataset-manifest references for the versioned park search index.",
+      "properties": {
+        "schema_version": {
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "manifest_url": {
+          "title": "Manifest Url",
+          "type": "string"
+        },
+        "top_parks_url": {
+          "title": "Top Parks Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "manifest_url",
+        "top_parks_url"
+      ],
+      "title": "ParkSearchArtifactMetadataSchema",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Versioned contract for the published ``*_metadata.json`` manifest.",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "source_updated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Updated At"
+    },
+    "bbox": {
+      "anyOf": [
+        {
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Bbox"
+    },
+    "layers": {
+      "additionalProperties": {
+        "$ref": "#/$defs/LayerMetadataSchema"
+      },
+      "title": "Layers",
+      "type": "object"
+    },
+    "composites": {
+      "additionalProperties": {
+        "$ref": "#/$defs/CompositeLayerMetadataSchema"
+      },
+      "title": "Composites",
+      "type": "object"
+    },
+    "artifacts": {
+      "$ref": "#/$defs/DatasetArtifactsSchema"
+    }
+  },
+  "required": [
+    "schema_version",
+    "name",
+    "created_at",
+    "source_updated_at",
+    "bbox",
+    "layers",
+    "composites",
+    "artifacts"
+  ],
+  "title": "DatasetManifestSchema",
+  "type": "object",
+  "schemaVersion": "0.1.0"
+}
