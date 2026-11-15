@@ -24,7 +24,6 @@ export default defineConfig({
         manualChunks: {
           'maplibre': ['maplibre-gl'],
           'pmtiles': ['pmtiles'],
-          'hyparquet': ['hyparquet'],
         },
       },
     },

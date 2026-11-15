@@ -1,0 +1,44 @@
+{
+  "additionalProperties": false,
+  "description": "Derived, geometry-free relationship between park and boundary OSM keys.",
+  "properties": {
+    "boundary_type": {
+      "title": "Boundary Type",
+      "type": "string"
+    },
+    "boundary_id": {
+      "title": "Boundary Id",
+      "type": "integer"
+    },
+    "boundary_admin_level": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Boundary Admin Level"
+    },
+    "park_type": {
+      "title": "Park Type",
+      "type": "string"
+    },
+    "park_id": {
+      "title": "Park Id",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "boundary_type",
+    "boundary_id",
+    "park_type",
+    "park_id"
+  ],
+  "title": "BoundaryParkMembershipProperties",
+  "type": "object",
+  "schemaVersion": "0.1.0",
+  "derived": true
+}

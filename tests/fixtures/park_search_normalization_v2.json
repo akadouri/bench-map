@@ -1,0 +1,82 @@
+{
+  "normalizationVersion": "2",
+  "caseMapping": "Unicode default lowercase (Python str.lower / JavaScript String.toLowerCase)",
+  "prefixLengthUnit": "Unicode code points",
+  "vectors": [
+    {
+      "input": "  PrÓspect---Park,  NYC! ",
+      "nativeText": "próspect park nyc",
+      "tokenForms": [["próspect", "prospect"], ["park"], ["nyc"]]
+    },
+    {
+      "input": "Café",
+      "nativeText": "café",
+      "tokenForms": [["café", "cafe"]]
+    },
+    {
+      "input": "МОСКВА",
+      "nativeText": "москва",
+      "tokenForms": [["москва"]]
+    },
+    {
+      "input": "ΑΘΉΝΑ",
+      "nativeText": "αθήνα",
+      "tokenForms": [["αθήνα"]]
+    },
+    {
+      "input": "مُحَمَّد",
+      "nativeText": "مُحَمَّد",
+      "tokenForms": [["مُحَمَّد"]]
+    },
+    {
+      "input": "क़िला",
+      "nativeText": "क़िला",
+      "tokenForms": [["क़िला"]]
+    },
+    {
+      "input": "新宿公園",
+      "nativeText": "新宿公園",
+      "tokenForms": [["新宿公園"]]
+    },
+    {
+      "input": "人民公园",
+      "nativeText": "人民公园",
+      "tokenForms": [["人民公园"]]
+    },
+    {
+      "input": "𠀀𠀁公園",
+      "nativeText": "𠀀𠀁公園",
+      "tokenForms": [["𠀀𠀁公園"]]
+    },
+    {
+      "input": "Straße",
+      "nativeText": "straße",
+      "tokenForms": [["straße"]]
+    },
+    {
+      "input": "ΟΣ",
+      "nativeText": "ος",
+      "tokenForms": [["ος"]]
+    },
+    {
+      "input": "İzmir",
+      "nativeText": "i̇zmir",
+      "tokenForms": [["i̇zmir", "izmir"]]
+    },
+    {
+      "input": "101-B",
+      "nativeText": "101 b",
+      "tokenForms": [["101"], ["b"]]
+    },
+    {
+      "input": null,
+      "nativeText": "",
+      "tokenForms": []
+    },
+    {
+      "input": 101,
+      "nativeText": "101",
+      "tokenForms": [["101"]]
+    }
+  ]
+}

@@ -1,13 +1,88 @@
 {
-  "created_at": "2026-02-21T11:57:55.335095",
-  "files": {
-    "pmtiles": "data.pmtiles",
-    "park_stats": "park_stats.parquet"
-  },
+  "schema_version": "0.1.0",
+  "name": "bench_map",
+  "created_at": "2026-11-13T01:28:37.429449+00:00",
+  "source_updated_at": "2026-11-07T11:00:00+00:00",
   "bbox": [
-    -74.085445,
-    40.634929,
-    -73.738346,
-    40.807053
-  ]
+    -73.994594,
+    40.641084,
+    -73.939619,
+    40.677579
+  ],
+  "layers": {
+    "parks": {
+      "name": "parks",
+      "created_at": "2026-11-13T01:28:37.429449+00:00",
+      "query": "SELECT p.id, p.type, p.name[1] AS name, p.names['en'][1] AS name_en, a.\"addr:city\" AS city, a.\"addr:state\" AS state, p.geometry FROM read_parquet('https://data.openstreetmap.us/layercake/parks.parquet') AS p LEFT JOIN read_parquet('https://data.openstreetmap.us/layercake/addresses.parquet') AS a ON p.type = a.type AND p.id = a.id WHERE p.leisure = 'park' AND (p.name[1] IS NOT NULL OR p.names['en'][1] IS NOT NULL) AND p.geometry IS NOT NULL AND p.bbox.xmax >= ? AND p.bbox.xmin <= ? AND p.bbox.ymax >= ? AND p.bbox.ymin <= ?",
+      "srid": 4326,
+      "bbox": [
+        -73.994594,
+        40.641084,
+        -73.939619,
+        40.677579
+      ],
+      "row_count": 37,
+      "minzoom": null,
+      "maxzoom": null,
+      "schema_name": "ParkProperties",
+      "schema_version": "0.1.0"
+    },
+    "benches": {
+      "name": "benches",
+      "created_at": "2026-11-13T01:28:37.429449+00:00",
+      "query": "SELECT id, amenity, name[1] AS name, CAST(NULL AS VARCHAR) AS backrest, CAST(NULL AS BIGINT) AS capacity, geometry FROM read_parquet('https://data.openstreetmap.us/layercake/pois.parquet') AS pois WHERE amenity = 'bench' AND geometry IS NOT NULL AND pois.bbox.xmax >= ? AND pois.bbox.xmin <= ? AND pois.bbox.ymax >= ? AND pois.bbox.ymin <= ?",
+      "srid": 4326,
+      "bbox": [
+        -73.994594,
+        40.641084,
+        -73.939619,
+        40.677579
+      ],
+      "row_count": 722,
+      "minzoom": null,
+      "maxzoom": null,
+      "schema_name": "BenchProperties",
+      "schema_version": "0.1.0"
+    },
+    "park_stats": {
+      "name": "park_stats",
+      "created_at": "2026-11-13T01:28:37.429449+00:00",
+      "query": "client-side sjoin(parks, benches, predicate='within')",
+      "srid": 4326,
+      "bbox": [
+        -73.994594,
+        40.641084,
+        -73.939619,
+        40.677579
+      ],
+      "row_count": 14,
+      "minzoom": null,
+      "maxzoom": null,
+      "schema_name": "ParkStatsProperties",
+      "schema_version": "0.1.0"
+    }
+  },
+  "composites": {
+    "bench_map": {
+      "name": "bench_map",
+      "created_at": "2026-11-13T01:28:37.429449+00:00",
+      "layer_names": [
+        "parks",
+        "benches"
+      ],
+      "bbox": [
+        -73.994594,
+        40.641084,
+        -73.939619,
+        40.677579
+      ]
+    }
+  },
+  "artifacts": {
+    "park_search": {
+      "schema_version": "0.1.0",
+      "manifest_url": "park_search/20261113T012837429449-430f5a44357e/manifest.json",
+      "top_parks_url": "park_search/20261113T012837429449-430f5a44357e/top_parks.json"
+    }
+  }
 }

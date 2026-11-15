@@ -1,0 +1,104 @@
+{
+  "additionalProperties": false,
+  "description": "Derived boundary catalog/count rows; park rankings are separate artifacts.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "integer"
+    },
+    "type": {
+      "title": "Type",
+      "type": "string"
+    },
+    "boundary": {
+      "title": "Boundary",
+      "type": "string"
+    },
+    "admin_level": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Admin Level"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Name"
+    },
+    "name_en": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Name En"
+    },
+    "place": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Place"
+    },
+    "country_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Country Code"
+    },
+    "state_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "State Code"
+    },
+    "park_count": {
+      "title": "Park Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "boundary",
+    "park_count"
+  ],
+  "title": "BoundaryStatsProperties",
+  "type": "object",
+  "schemaVersion": "0.1.0",
+  "derived": true
+}
