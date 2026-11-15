@@ -122,55 +122,68 @@ export default {
         type: "vector",
         url: pmtilesUrl,
       });
-      map.addLayer({
-        id: BOUNDARY_HIT_TEST_LAYER,
-        source: "pmtiles-source",
-        "source-layer": "boundaries",
-        type: "fill",
-        filter: [
-          "all",
-          ["==", ["get", "boundary"], "administrative"],
-          ["==", ["get", "admin_level"], "2"],
-        ],
-        paint: {
-          "fill-color": "#000000",
-          "fill-opacity": 0.01,
-        },
-      });
-      map.addLayer({
-        id: "my-pmtiles-layer",
-        type: "circle",
-        source: "pmtiles-source",
-        "source-layer": "benches",
-        paint: {
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            1,
-            2,
-            10,
-            2,
-            14,
-            3,
-            16,
-            3,
+      // Basemap labels are symbol layers. Insert our data below the first one
+      // so place and road names stay readable on top of parks and benches.
+      const firstBasemapLabelId = map
+        .getStyle()
+        .layers.find((layer) => layer.type === "symbol")?.id;
+      map.addLayer(
+        {
+          id: BOUNDARY_HIT_TEST_LAYER,
+          source: "pmtiles-source",
+          "source-layer": "boundaries",
+          type: "fill",
+          filter: [
+            "all",
+            ["==", ["get", "boundary"], "administrative"],
+            ["==", ["get", "admin_level"], "2"],
           ],
+          paint: {
+            "fill-color": "#000000",
+            "fill-opacity": 0.01,
+          },
         },
-      });
-      map.addControl(new AttributionControl(), "top-left");
-      var nav = new NavigationControl({});
-      map.addControl(nav, "top-right");
-      map.addLayer({
-        id: "parks",
-        source: "pmtiles-source",
-        "source-layer": "parks",
-        type: "fill",
-        minzoom: 9,
-        paint: {
-          "fill-opacity": 0.25,
+        firstBasemapLabelId
+      );
+      // Parks are added before benches so the bench points draw on top.
+      map.addLayer(
+        {
+          id: "parks",
+          source: "pmtiles-source",
+          "source-layer": "parks",
+          type: "fill",
+          minzoom: 9,
+          paint: {
+            "fill-opacity": 0.25,
+          },
         },
-      });
+        firstBasemapLabelId
+      );
+      map.addLayer(
+        {
+          id: "my-pmtiles-layer",
+          type: "circle",
+          source: "pmtiles-source",
+          "source-layer": "benches",
+          paint: {
+            "circle-radius": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              1,
+              2,
+              10,
+              2,
+              14,
+              3,
+              16,
+              3,
+            ],
+          },
+        },
+        firstBasemapLabelId
+      );
+      // No beforeId: park names go on top of everything, basemap labels included.
       map.addLayer({
         id: "parks-label",
         source: "pmtiles-source",
@@ -189,6 +202,9 @@ export default {
           "text-halo-width": 2,
         },
       });
+      map.addControl(new AttributionControl(), "top-left");
+      var nav = new NavigationControl({});
+      map.addControl(nav, "top-right");
     });
     this.emitter.on("park", (park: ParkSearchResult) => {
       const bbox = park.bbox as BBox;
